@@ -2,11 +2,21 @@ const express = require('express')
 const router = express.Router()
 const Content = require('../models/Schema')
 
+let count = 0;
 
 router.get('/', async(req,res) => {
     try{
-           const aliens = await Content.find()
-           res.json(aliens)
+           const contents = await Content.find()
+           res.json(contents)
+    }catch(err){
+        res.send('Error ' + err)
+    }
+})
+
+router.get('/count', async(req,res) => {
+    try{
+           const apiCallCount = {count};
+           res.json( apiCallCount)
     }catch(err){
         res.send('Error ' + err)
     }
@@ -14,8 +24,8 @@ router.get('/', async(req,res) => {
 
 router.get('/:id', async(req,res) => {
     try{
-           const alien = await Content.findById(req.params.id)
-           res.json(alien)
+           const contents = await Content.findById(req.params.id)
+           res.json(contents)
     }catch(err){
         res.send('Error ' + err)
     }
@@ -23,24 +33,25 @@ router.get('/:id', async(req,res) => {
 
 
 router.post('/', async(req,res) => {
-    const alien = new Content({
-        id: req.body.id,
+    const contents = new Content({
         content: req.body.content
     })
 
     try{
-        const a1 =  await alien.save() 
+        const a1 =  await contents.save() 
+        count++;
         res.json(a1)
     }catch(err){
         res.send('Error')
     }
 })
 
-router.patch('/:id',async(req,res)=> {
+router.put('/:id',async(req,res)=> {
     try{
-        const alien = await Alien.findById(req.params.id) 
-        alien.content = req.body.content
-        const a1 = await alien.save()
+        const contents = await Content.findById(req.params.id) 
+        contents.content = req.body.content
+        const a1 = await contents.save()
+        count++;
         res.json(a1)   
     }catch(err){
         res.send('Error')
