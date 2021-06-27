@@ -13,6 +13,8 @@ router.get('/', async(req,res) => {
     }
 })
 
+
+//Count number of add and update call
 router.get('/count', async(req,res) => {
     try{
            const apiCallCount = {count};
@@ -31,7 +33,7 @@ router.get('/:id', async(req,res) => {
     }
 })
 
-
+//Add content
 router.post('/', async(req,res) => {
     const contents = new Content({
         content: req.body.content
@@ -46,6 +48,8 @@ router.post('/', async(req,res) => {
     }
 })
 
+
+//Update Content
 router.put('/:id',async(req,res)=> {
     try{
         const contents = await Content.findById(req.params.id) 
